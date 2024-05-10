@@ -1,0 +1,28 @@
+::-webkit-scrollbar{
+    width: 0%;
+}
+
+.signuppage{
+    /* background-color: rgb(117, 104, 104); */
+    padding: 5em;
+    display: flex;
+    justify-content: space-around;
+    height: calc(100vh - 15);
+    width: 90vw;
+    align-items: center;
+}
+
+.ik1{
+    width: 20%;
+}
+input{
+    margin: 3% 0;
+}
+.formfiels{
+    /* border: 1px solid black; */
+    width: 30vw;
+    ;
+}
+.nextbtn{
+    padding: 0.5vh  1.25vw;
+}
