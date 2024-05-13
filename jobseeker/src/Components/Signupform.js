@@ -2,12 +2,50 @@
 import React, { useState } from "react";
 import "./Signupcss.css";
 import Lastnav from "./Lastnav";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 
 export default function Signupform() {
-  const [firstname, setfirstname] = useState("");
-  const [lastname, setlastname] = useState("");
-  const [emilid, setemilid] = useState("");
+  const navigate = useNavigate();
+  const [user, setUser] = useState({
+    firstName: "", lastName: "", dob: "", gender: "", email: "", phone: "", password: "", confirmPassword: ""
+  })
+  let name, value;
+  const handleInputs = (e) => {
+    name = e.target.name;
+    value = e.target.value;
+
+    setUser({ ...user, [name]: value })
+
+  }
+  const handleGenderChange = (e) => {
+    setUser({ ...user, gender: e.target.value });
+  }
+
+  const PostData = async (e) => {
+    e.preventDefault();
+    const { firstName, lastName, dob, gender, email, phone, password, confirmPassword } = user;
+
+    const res = await fetch("/register", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        FirstName: firstName, LastName: lastName, Birthday: dob, Gender: gender, Email: email, PhoneNo: phone, Password: password, ConfirmPassword: confirmPassword
+      })
+    })
+    const data = await res.json();
+    if (data.message === "Registered Successfully") {
+      window.alert("registration successful");
+      navigate("/profile");
+    } else if(data.message === "Password not matching") {
+      window.alert("Password not matching");
+    }
+    else {
+       window.alert("Invalid Registration")
+    }
+  }
+
 
   return (
     <>
@@ -21,7 +59,7 @@ export default function Signupform() {
         </div>
         <div className="formfiels">
           <h2></h2>
-          <form action="#" method="post" className="boundry">
+          <form method="post" className="boundry">
             <div>
               {/* <label htmlFor="firstName">
               First Name<span>*</span>:
@@ -31,10 +69,8 @@ export default function Signupform() {
                 type="text"
                 id="firstName"
                 name="firstName"
-                value={firstname}
-                onChange={(e) => {
-                  setfirstname(e.target.value);
-                }}
+                value={user.firstName}
+                onChange={handleInputs}
                 required
                 className="form-control form-control-lg"
               />
@@ -48,10 +84,8 @@ export default function Signupform() {
                 type="text"
                 id="lastName"
                 name="lastName"
-                value={lastname}
-                onChange={(e) => {
-                  setlastname(e.target.value);
-                }}
+                value={user.lastName}
+                onChange={handleInputs}
                 required
                 className="form-control form-control-lg"
               />
@@ -65,6 +99,8 @@ export default function Signupform() {
                 type="date"
                 id="dob"
                 name="dob"
+                value={user.dob}
+                onChange={handleInputs}
                 className="form-control form-control-lg"
               />
             </div>
@@ -78,6 +114,10 @@ export default function Signupform() {
                 id="male"
                 name="gender"
                 value="male"
+                //value={user.gender}
+                //onChange={handleInputs}
+                checked={user.gender === "male"}
+                onChange={handleGenderChange}
                 className="form-check-input mx-3  "
               />
               <label htmlFor="male" className="text-black">
@@ -90,6 +130,10 @@ export default function Signupform() {
                 id="female"
                 name="gender"
                 value="female"
+                //value={user.gender}
+                // onChange={handleInputs}
+                checked={user.gender === "male"}
+                onChange={handleGenderChange}
                 className="form-check-input mx-3  "
               />
               <label htmlFor="female" className="text-black">
@@ -104,10 +148,9 @@ export default function Signupform() {
                 id="email"
                 name="email"
                 className="form-control form-control-lg"
-                value={emilid}
-                onChange={(e) => {
-                  setemilid(e.target.value);
-                }}
+                //value={emilid}
+                value={user.email}
+                onChange={handleInputs}
               />
             </div>
             <div>
@@ -117,6 +160,8 @@ export default function Signupform() {
                 type="tel"
                 id="phone"
                 name="phone"
+                value={user.phone}
+                onChange={handleInputs}
                 className="form-control form-control-lg"
               />
             </div>
@@ -127,6 +172,8 @@ export default function Signupform() {
                 type="password"
                 id="password"
                 name="password"
+                value={user.password}
+                onChange={handleInputs}
                 className="form-control form-control-lg"
               />
             </div>
@@ -137,6 +184,8 @@ export default function Signupform() {
                 type="password"
                 id="confirmPassword"
                 name="confirmPassword"
+                value={user.confirmPassword}
+                onChange={handleInputs}
                 className="form-control form-control-lg"
               />
             </div>
@@ -156,7 +205,7 @@ export default function Signupform() {
               </label> */}
             </div>
             <NavLink to="/profile">
-              <button type="submit" className="btn btn-primary btn-lg nextbtn">
+              <button type="submit" className="btn btn-primary btn-lg nextbtn" onClick={PostData}>
                 Sign up
               </button>
             </NavLink>
