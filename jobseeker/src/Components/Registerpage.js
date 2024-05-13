@@ -2,17 +2,53 @@
 import React, { useState } from "react";
 import "./Regicss.css";
 import Lastnav from "./Lastnav";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 
 export default function Registerpage() {
-  const [emailid, setemailid] = useState("");
-  const [passkey, setpasskey] = useState("");
+  const navigate = useNavigate();
+  const [user, setUser] = useState({
+    email: "", password: ""
+  })
+  let name, value;
+  const handleInputs = (e) => {
+    name = e.target.name;
+    value = e.target.value;
 
-  const loginbtn = () => {
-    console.log("email=" + emailid + "\npassowrd=" + passkey);
-    setemailid("");
-    setpasskey("");
-  };
+    setUser({ ...user, [name]: value })
+
+  }
+  const PostData = async (e) => {
+    e.preventDefault();
+    const { email, password } = user;
+    const res = await fetch("/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        Email: email, Password: password
+      })
+    })
+    const data = await res.json();
+    if (data.message === "LoggedIn Successfully") {
+      window.alert("LoggedIn Successfully");
+      navigate("/profile");
+    } else if (data.message === "Enter Valid Email") {
+      window.alert("Enter Valid Email");
+    }
+    else if (data.message === "Enter Valid Password") {
+      window.alert("Enter Valid Password");
+    }
+    else {
+      window.alert("Invalid Registration")
+    }
+  }
+
+  // const loginbtn = () => {
+  //   console.log("email=" + emailid + "\npassowrd=" + passkey);
+  //   setemailid("");
+  //   setpasskey("");
+  // };
 
   return (
     <section className="vh-100">
@@ -67,10 +103,9 @@ export default function Registerpage() {
                   type="email"
                   id="form3Example3"
                   className="form-control form-control-lg"
-                  value={emailid}
-                  onChange={(e) => {
-                    setemailid(e.target.value);
-                  }}
+                  name="email"
+                  value={user.email}
+                  onChange={handleInputs}
                   placeholder="Email "
                 />
                 {/* <label className="form-label" htmlFor="form3Example3">
@@ -83,10 +118,9 @@ export default function Registerpage() {
                   type="password"
                   id="form3Example4"
                   className="form-control form-control-lg"
-                  value={passkey}
-                  onChange={(e) => {
-                    setpasskey(e.target.value);
-                  }}
+                  name="password"
+                  value={user.password}
+                  onChange={handleInputs}
                   placeholder="password"
                 />
                 {/* <label className="form-label" htmlFor="form3Example4">
@@ -125,7 +159,7 @@ export default function Registerpage() {
                     data-mdb-button-init
                     data-mdb-ripple-init
                     className="btn btn-primary btn-lg"
-                    onClick={loginbtn}
+                    onClick={PostData}
                   >
                     Login
                   </button>
