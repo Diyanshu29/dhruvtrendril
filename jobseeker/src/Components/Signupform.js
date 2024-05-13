@@ -2,24 +2,23 @@
 import React, { useState } from "react";
 import "./Signupcss.css";
 import Lastnav from "./Lastnav";
-import { NavLink ,useHistory} from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 
 export default function Signupform() {
-  // const [firstname, setfirstname] = useState("");
-  // const [lastname, setlastname] = useState("");
-  // const [emilid, setemilid] = useState("");
-  const history = useHistory();
+  const navigate = useNavigate();
   const [user, setUser] = useState({
     firstName: "", lastName: "", dob: "", gender: "", email: "", phone: "", password: "", confirmPassword: ""
   })
   let name, value;
   const handleInputs = (e) => {
-    console.log(e);
     name = e.target.name;
     value = e.target.value;
 
     setUser({ ...user, [name]: value })
 
+  }
+  const handleGenderChange = (e) => {
+    setUser({ ...user, gender: e.target.value });
   }
 
   const PostData = async (e) => {
@@ -32,16 +31,18 @@ export default function Signupform() {
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
-        firstName, lastName, dob, gender, email, phone, password, confirmPassword
+        FirstName: firstName, LastName: lastName, Birthday: dob, Gender: gender, Email: email, PhoneNo: phone, Password: password, ConfirmPassword: confirmPassword
       })
     })
     const data = await res.json();
-    if (res.status === 404 || !data) {
-      window.alert("Invalid registration");
+    if (data.message === "Registered Successfully") {
+      window.alert("registration successful");
+      navigate("/profile");
+    } else if(data.message === "Password not matching") {
+      window.alert("Password not matching");
     }
     else {
-      window.alert("registration successful");
-      history.push("/profile");
+       window.alert("Invalid Registration")
     }
   }
 
@@ -112,9 +113,11 @@ export default function Signupform() {
                 type="radio"
                 id="male"
                 name="gender"
-                //value="male"
-                value={user.gender}
-                onChange={handleInputs}
+                value="male"
+                //value={user.gender}
+                //onChange={handleInputs}
+                checked={user.gender === "male"}
+                onChange={handleGenderChange}
                 className="form-check-input mx-3  "
               />
               <label htmlFor="male" className="text-black">
@@ -126,9 +129,11 @@ export default function Signupform() {
                 type="radio"
                 id="female"
                 name="gender"
-                //value="female"
-                value={user.gender}
-                onChange={handleInputs}
+                value="female"
+                //value={user.gender}
+                // onChange={handleInputs}
+                checked={user.gender === "male"}
+                onChange={handleGenderChange}
                 className="form-check-input mx-3  "
               />
               <label htmlFor="female" className="text-black">
