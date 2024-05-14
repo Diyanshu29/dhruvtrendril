@@ -1,13 +1,15 @@
-import React from "react";
+import React,{useRef,usestate } from "react";
 import Upperbar from "./Upperbar";
 
 export default function Profile() {
+
+
   return (
     <>
-      {/* <Upperbar /> */}
-      <div className="container rounded bg-white mt-5 mb-5">
+      
+      <div className="container rounded bg-white mt-3 mb-3">
         <div className="row">
-          <div className="col-md-3 border-right">
+          <div className="my-1 col-md-3 border-right">
             <div className="d-flex flex-column align-items-center text-center p-3 py-5">
               <img
                 className="rounded-circle mt-5"
@@ -16,16 +18,26 @@ export default function Profile() {
               />
               <span className="font-weight-bold">Edogaru</span>
               <span className="text-black-50">edogaru@mail.com.my</span>
+              <div className=" text-center">
+                  <button
+                    className=" my-3 btn btn-primary profile-button"
+                    type="button"
+                  >
+                    upload image
+                  </button>
+                </div>
             </div>
           </div>
-          <div className="col-md-5 border-right">
+          
+          
+          <div className="col-md-5 ">
             <div className="p-3 py-5">
               <div className="d-flex justify-content-between align-items-center mb-3">
                 <h4 className="text-right .text-black">Profile</h4>
               </div>
               <div className="row mt-2">
                 <div className="col-md-6">
-                  <label className="labels">Name</label>
+                  {/* <label className="labels">Name</label> */}
                   <input
                     type="text"
                     className="form-control"
@@ -33,7 +45,7 @@ export default function Profile() {
                   />
                 </div>
                 <div className="col-md-6">
-                  <label className="labels">Surname</label>
+                  {/* <label className="labels">Surname</label> */}
                   <input
                     type="text"
                     className="form-control"
@@ -43,7 +55,7 @@ export default function Profile() {
               </div>
               <div className="row mt-3">
                 <div className="col-md-12">
-                  <label className="labels">Mobile Number</label>
+                  {/* <label className="labels">Mobile Number</label> */}
                   <input
                     type="text"
                     className="form-control"
@@ -51,57 +63,31 @@ export default function Profile() {
                   />
                 </div>
                 <div className="col-md-12">
-                  <label className="labels">Address Line 1</label>
+                  {/* <label className="labels">Address Line 1</label> */}
                   <input
                     type="text"
                     className="form-control"
                     placeholder="enter address line 1"
                   />
-                </div>
-                {/* <div className="col-md-12">
-                  <label className="labels">Address Line 2</label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    placeholder="enter address line 2"
-                    
-                  />
-                </div> */}
-                {/* <div className="col-md-12">
-                  <label className="labels">Postcode</label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    placeholder="enter address line 2"
-                    
-                  />
-                </div> */}
+                </div>     
                 <div className="col-md-12">
-                  <label className="labels">State</label>
+                  {/* <label className="labels">Area</label> */}
                   <input
                     type="text"
                     className="form-control"
-                    placeholder="enter address line 2"
+                    placeholder="Area"
                   />
                 </div>
                 <div className="col-md-12">
-                  <label className="labels">Area</label>
+                  {/* <label className="labels">Email ID</label> */}
                   <input
                     type="text"
                     className="form-control"
-                    placeholder="enter address line 2"
+                    placeholder="Email"
                   />
                 </div>
                 <div className="col-md-12">
-                  <label className="labels">Email ID</label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    placeholder="enter email id"
-                  />
-                </div>
-                <div className="col-md-12">
-                  <label className="labels">Education</label>
+                  {/* <label className="labels">Education</label> */}
                   <input
                     type="text"
                     className="form-control"
@@ -111,7 +97,7 @@ export default function Profile() {
               </div>
               <div className="row mt-3">
                 <div className="col-md-6">
-                  <label className="labels">Country</label>
+                  {/* <label className="labels">Country</label> */}
                   <input
                     type="text"
                     className="form-control"
@@ -119,7 +105,7 @@ export default function Profile() {
                   />
                 </div>
                 <div className="col-md-6">
-                  <label className="labels">State/Region</label>
+                  {/* <label className="labels">State/Region</label> */}
                   <input
                     type="text"
                     className="form-control"
@@ -127,17 +113,29 @@ export default function Profile() {
                   />
                 </div>
               </div>
-              <div className="mt-5 text-center">
-                <button
-                  className="btn btn-primary profile-button"
-                  type="button"
-                >
-                  Save Profile
-                </button>
-              </div>
+              <div className="my-3 d-flex p-2 bd-highlight">
+                <div className=" text-center">
+                  <button
+                    className="  btn btn-success profile-button"
+                    type="button"
+                  >
+                    Edit Profile
+                  </button>
+                </div>
+                <div className=" text-center">
+                  <button
+                    className=" mx-3 btn btn-primary profile-button"
+                    type="button"
+                  >
+                    Save Profile
+                  </button>
+                </div>
+                </div>
             </div>
           </div>
-          <div className="col-md-4">
+          
+          
+          <div className=" col-md-4">
             <div className="p-3 py-5">
               <div className="d-flex justify-content-between align-items-center experience">
                 <span>Edit Experience</span>
@@ -153,7 +151,7 @@ export default function Profile() {
                   className="form-control"
                   placeholder="experience"
                 />
-              </div>{" "}
+              </div>
               <br />
               <div className="col-md-12">
                 <label className="labels">Additional Details</label>
