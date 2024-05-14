@@ -1,36 +1,18 @@
-import React,{useRef,usestate } from "react";
+import React,{useRef,usestate ,props} from "react";
 import Upperbar from "./Upperbar";
+import Imgprofile from "./Imgprofile";
 
-export default function Profile() {
-
+export default function Profile(props) {
 
   return (
     <>
       
-      <div className="container rounded bg-white mt-3 mb-3">
+      <div className="container rounded bg-white mt-5 mb-3 ">
         <div className="row">
-          <div className="my-1 col-md-3 border-right">
-            <div className="d-flex flex-column align-items-center text-center p-3 py-5">
-              <img
-                className="rounded-circle mt-5"
-                width="150px"
-                src="https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg"
-              />
-              <span className="font-weight-bold">Edogaru</span>
-              <span className="text-black-50">edogaru@mail.com.my</span>
-              <div className=" text-center">
-                  <button
-                    className=" my-3 btn btn-primary profile-button"
-                    type="button"
-                  >
-                    upload image
-                  </button>
-                </div>
-            </div>
-          </div>
           
+          <Imgprofile/>
           
-          <div className="col-md-5 ">
+          <div className="col-md-6 border-end">
             <div className="p-3 py-5">
               <div className="d-flex justify-content-between align-items-center mb-3">
                 <h4 className="text-right .text-black">Profile</h4>
@@ -134,7 +116,6 @@ export default function Profile() {
             </div>
           </div>
           
-          
           <div className=" col-md-4">
             <div className="p-3 py-5">
               <div className="d-flex justify-content-between align-items-center experience">
@@ -163,6 +144,7 @@ export default function Profile() {
               </div>
             </div>
           </div>
+
         </div>
       </div>
     </>
