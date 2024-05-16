@@ -5,7 +5,10 @@ import Lastnav from "./Lastnav";
 import { NavLink, useNavigate } from "react-router-dom";
 
 export default function Registerpage() {
+  const [status,setStatus] =useState('')
+
   const navigate = useNavigate();
+
   const [user, setUser] = useState({
     email: "", password: ""
   })
@@ -32,12 +35,14 @@ export default function Registerpage() {
     const data = await res.json();
     if (data.message === "LoggedIn Successfully") {
       window.alert("LoggedIn Successfully");
+      
       navigate("/profile");
     } else if (data.message === "Enter Valid Email") {
       window.alert("Enter Valid Email");
     }
     else if (data.message === "Enter Valid Password") {
       window.alert("Enter Valid Password");
+    
     }
     else {
       window.alert("Invalid Registration")
@@ -97,7 +102,7 @@ export default function Registerpage() {
               <div className="divider d-flex align-items-center my-4">
                 <p className="text-center fw-bold mx-3 mb-0">Or</p>
               </div> */}
-
+              
               <div data-mdb-input-init className="form-outline mb-4">
                 <input
                   type="email"
@@ -168,7 +173,7 @@ export default function Registerpage() {
                   Don't have an account?
                   <NavLink class="btn btn-primary" to="/signup" role="button">
                     <button class=" mx-2 btn btn-danger">
-                      Register if you note
+                      Register if you not
                     </button>
                   </NavLink>
                 </p>
