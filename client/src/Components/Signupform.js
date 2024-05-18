@@ -5,47 +5,119 @@ import Lastnav from "./Lastnav";
 import { NavLink, useNavigate } from "react-router-dom";
 
 export default function Signupform() {
+  const [validation, setValidation] = useState();
+  const [errors, setErrors] = useState({
+    firstName: "",
+    lastName: "",
+    dob: "",
+    gender: "",
+    email: "",
+    phone: "",
+    password: "",
+    confirmPassword: "",
+  });
   const navigate = useNavigate();
+ 
   const [user, setUser] = useState({
-    firstName: "", lastName: "", dob: "", gender: "", email: "", phone: "", password: "", confirmPassword: ""
-  })
+    firstName: "",
+    lastName: "",
+    dob: "",
+    gender: "",
+    email: "",
+    phone: "",
+    password: "",
+    confirmPassword: "",
+  });
+
   let name, value;
+ 
   const handleInputs = (e) => {
     name = e.target.name;
     value = e.target.value;
+    
+    setUser({ ...user, [name]: value });
 
-    setUser({ ...user, [name]: value })
-
-  }
+      if(e.target.value === "")
+        {
+            setValidation(4)
+          }else if(e.target.value !== "")
+            {
+              setValidation(5)
+            }else if(e.target.value === ' '|| e.target.value === '  ' ){
+              setValidation(4)
+            }else{
+          setValidation(9)
+        }
+  //   const { name, value } = e.target;
+  //   setUser({
+  //     ...user,
+  //     [name]: value,
+  //   });
+  //  validateInput(name, value);
+  };
+  // const validateInput = (name, value) => {
+  //   if (value.trim() === '') {
+  //     setErrors({
+  //       ...errors,
+  //       [name]: 'Input field cannot be empty',
+  //     });
+  //   } else {
+  //     setErrors({
+  //       ...errors,
+  //       [name]: '',
+  //     });
+  //   }
+  // };
+  const handleSubmit = (e) => {
+    e.preventDefault();
+  };
   const handleGenderChange = (e) => {
     setUser({ ...user, gender: e.target.value });
-  }
-
+  };
   const PostData = async (e) => {
     e.preventDefault();
-    const { firstName, lastName, dob, gender, email, phone, password, confirmPassword } = user;
+
+    const {
+      firstName,
+      lastName,
+      dob,
+      gender,
+      email,
+      phone,
+      password,
+      confirmPassword,
+    } = user;
 
     const res = await fetch("http://127.0.0.1:5000/register", {
       method: "POST",
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        FirstName: firstName, LastName: lastName, Birthday: dob, Gender: gender, Email: email, PhoneNo: phone, Password: password, ConfirmPassword: confirmPassword
-      })
-    })
+        FirstName: firstName,
+        LastName: lastName,
+        Birthday: dob,
+        Gender: gender,
+        Email: email,
+        PhoneNo: phone,
+        Password: password,
+        ConfirmPassword: confirmPassword,
+      }),
+    });
     const data = await res.json();
+
     if (data.message === "Registered Successfully") {
       window.alert("registration successful");
+      setValidation(1);
       navigate("/profile");
-    } else if(data.message === "Password not matching") {
-      window.alert("Password not matching");
+    } else if (data.message === "Password not matching") {
+      setValidation(2);
+      // window.alert("Password not matching");
+    } else {
+      //  window.alert("Invalid Registration")
+      setValidation(3);
     }
-    else {
-       window.alert("Invalid Registration")
-    }
-  }
-
+  };
 
   return (
     <>
@@ -57,16 +129,25 @@ export default function Signupform() {
             alt="Sample image"
           />
         </div>
+       
         <div className="formfiels">
-          <h2></h2>
           <form method="post" className="boundry">
             <div>
-              {/* <label htmlFor="firstName">
-              First Name<span>*</span>:
-            </label> */}
+            {validation == 4 ? (
+              <p className="text-danger"> can not be empty</p>
+            ) : (
+              <p></p>
+            )}
+            {validation == 5 ? (
+              <p className="text-danger"> </p>
+            ) : (
+              <p></p>
+            )}
+            {errors.firstName && <p style={{ color: 'red' }}>{errors.input1}</p>}
               <input
                 placeholder="First Name *"
                 type="text"
+                autoComplete="off"
                 id="firstName"
                 name="firstName"
                 value={user.firstName}
@@ -76,12 +157,11 @@ export default function Signupform() {
               />
             </div>
             <div>
-              {/* <label htmlFor="lastName">
-              Last Name<span>*</span>:
-            </label> */}
+            
               <input
                 placeholder=" Last Name *"
                 type="text"
+                autoComplete="off"
                 id="lastName"
                 name="lastName"
                 value={user.lastName}
@@ -91,12 +171,10 @@ export default function Signupform() {
               />
             </div>
             <div>
-              {/* <label htmlFor="dob">
-              Date of Birth<span>*</span>:
-            </label> */}
               <input
                 placeholder=""
                 type="date"
+                autoComplete="off"
                 id="dob"
                 name="dob"
                 value={user.dob}
@@ -104,7 +182,7 @@ export default function Signupform() {
                 className="form-control form-control-lg"
               />
             </div>
-            <div className="my-3">
+            <div className="my-3 form-control form-control-lg">
               <label>
                 <b className="">Gender: </b>
               </label>
@@ -114,8 +192,6 @@ export default function Signupform() {
                 id="male"
                 name="gender"
                 value="male"
-                //value={user.gender}
-                //onChange={handleInputs}
                 checked={user.gender === "male"}
                 onChange={handleGenderChange}
                 className="form-check-input mx-3  "
@@ -130,9 +206,7 @@ export default function Signupform() {
                 id="female"
                 name="gender"
                 value="female"
-                //value={user.gender}
-                // onChange={handleInputs}
-                checked={user.gender === "male"}
+                checked={user.gender === "female"}
                 onChange={handleGenderChange}
                 className="form-check-input mx-3  "
               />
@@ -141,23 +215,23 @@ export default function Signupform() {
               </label>
             </div>
             <div>
-              {/* <label htmlFor="email">:</label> */}
+           
               <input
                 placeholder="Email"
                 type="email"
+                autoComplete="off"
                 id="email"
                 name="email"
                 className="form-control form-control-lg"
-                //value={emilid}
                 value={user.email}
                 onChange={handleInputs}
               />
             </div>
             <div>
-              {/* <label htmlFor="phone">Phone:</label> */}
               <input
                 placeholder="Phone"
                 type="tel"
+                autoComplete="off"
                 id="phone"
                 name="phone"
                 value={user.phone}
@@ -170,6 +244,7 @@ export default function Signupform() {
               <input
                 placeholder="Password"
                 type="password"
+                autoComplete="off"
                 id="password"
                 name="password"
                 value={user.password}
@@ -178,10 +253,15 @@ export default function Signupform() {
               />
             </div>
             <div>
-              <label htmlFor="confirmPassword">Confirm Password:</label>
+              {validation == 2 ? (
+                <p className="text-danger">Password not matching</p>
+              ) : (
+                <label htmlFor="confirmPassword">Confirm Password:</label>
+              )}
               <input
                 placeholder="Confirm Password *"
                 type="password"
+                autoComplete="off"
                 id="confirmPassword"
                 name="confirmPassword"
                 value={user.confirmPassword}
@@ -189,23 +269,24 @@ export default function Signupform() {
                 className="form-control form-control-lg"
               />
             </div>
-            <div>
-              {/* <label>
-              Compulsory Fields<span>*</span>:
-            </label> */}
-              {/* <input
-                placeholder=""
-                type="checkbox"
-                id="compulsoryFields"
-                name="compulsoryFields"
-                required
-              />
-              <label htmlFor="compulsoryFields">
-                I confirm that all compulsory fields are filled
-              </label> */}
-            </div>
+            <div></div>
+            {validation == 3 ? (
+              <p className="text-danger">Invalid register</p>
+            ) : (
+              <p></p>
+            )}
+            {validation == 1 ? (
+              <p className="text-success"> register successful</p>
+            ) : (
+              <p></p>
+            )}
             <NavLink to="/profile">
-              <button type="submit" className="btn btn-primary btn-lg nextbtn" onClick={PostData}>
+              <button
+                id="signupbtn"
+                type="submit"
+                className="btn btn-primary btn-lg nextbtn"
+                onClick={PostData}
+              >
                 Sign up
               </button>
             </NavLink>
