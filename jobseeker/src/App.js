@@ -11,6 +11,8 @@ import Signupform from "./Components/Signupform";
 import Notfound from "./Components/Notfound";
 import Forgetpass from "./Components/Forgetpass";
 import Profile from "./Components/Profile";
+import Imgprofile from "./Components/Imgprofile";
+import Expricenceprofile from "./Components/Expricenceprofile";
 
 function App() {
   return (
@@ -19,7 +21,9 @@ function App() {
         <Route path="/" element={<Registerpage />} />
         <Route path="/signup" element={<Signupform />} />
         <Route path="/forget" element={<Forgetpass />} />
-        <Route path="/profile" element={<Profile />} />
+        <Route path="/pro" element={<Imgprofile />} />
+        <Route path="/exp" element={<Expricenceprofile />} />
+        <Route path="/profile" element={<Profile  uname="dhruv gajjar"/>} />
         <Route path="*" element={<Notfound />} />
       </Routes>
     </BrowserRouter>
