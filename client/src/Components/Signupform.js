@@ -25,7 +25,7 @@ export default function Signupform() {
     e.preventDefault();
     const { firstName, lastName, dob, gender, email, phone, password, confirmPassword } = user;
 
-    const res = await fetch("/register", {
+    const res = await fetch("http://127.0.0.1:5000/register", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"

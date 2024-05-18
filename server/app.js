@@ -3,7 +3,9 @@ const app = express();
 const mongoose = require('mongoose');
 const detail = require('./model/schema')
 const bcrypt = require('bcrypt')
+const cors = require('cors');
 
+app.use(cors())
 app.listen(5000, () => {
     console.log('Listening on port 5000');
 })

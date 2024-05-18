@@ -20,7 +20,7 @@ export default function Registerpage() {
   const PostData = async (e) => {
     e.preventDefault();
     const { email, password } = user;
-    const res = await fetch("/login", {
+    const res = await fetch("http://127.0.0.1:5000/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
